@@ -4,6 +4,7 @@ var isIP = require('net').isIP
 var dns = require('dns')
 var util = require('util')
 var events = require('events')
+var mocksocket = require('./lib/mocksocket');
 
 var ETIMEDOUT = new Error('Query timed out')
 ETIMEDOUT.code = 'ETIMEDOUT'
@@ -19,7 +20,8 @@ function RPC (opts) {
   this.timeout = opts.timeout || 2000
   this.inflight = 0
   this.destroyed = false
-  this.socket = dgram.createSocket('udp4')
+  //this.socket = dgram.createSocket('udp4')
+  this.socket = new mocksocket();
   this.socket.on('message', onmessage)
   this.socket.on('error', onerror)
   this.socket.on('listening', onlistening)
